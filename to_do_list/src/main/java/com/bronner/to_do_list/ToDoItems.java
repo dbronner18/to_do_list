@@ -18,38 +18,54 @@ public class ToDoItems {
 	}
 	
 	//add item to list
-	public void addItem (String itemDesc) {
-		ToDoItem item = new ToDoItem(itemDesc);
-		trans = session.beginTransaction();
-	    session.save(item);
-	    trans.commit();
+	public boolean addItem (String itemDesc) {
+		if (itemDesc != null) {
+			ToDoItem item = new ToDoItem(itemDesc);
+			trans = session.beginTransaction();
+		    session.save(item);
+		    trans.commit();
+		    return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	//delete item from list
-	public void deleteItem (int itemID) {
-		trans = session.beginTransaction();
-		List items = session.createQuery("FROM com.bronner.to_do_list.ToDoItem to_do_item").list();
-		trans.commit();
-		for(Iterator iterator = items.iterator(); iterator.hasNext();) {
-			ToDoItem item = (ToDoItem) iterator.next();
-			if(item.getItemID() == itemID) {
-				trans = session.beginTransaction();
-			    session.remove(item);
-			    trans.commit();
-			    break;
+	public boolean deleteItem (int itemID) {
+		if(itemID >= 1) {
+			trans = session.beginTransaction();
+			List items = session.createQuery("FROM com.bronner.to_do_list.ToDoItem to_do_item").list();
+			trans.commit();
+			for(Iterator iterator = items.iterator(); iterator.hasNext();) {
+				ToDoItem item = (ToDoItem) iterator.next();
+				if(item.getItemID() == itemID) {
+					trans = session.beginTransaction();
+				    session.remove(item);
+				    trans.commit();
+				    break;
+				}
 			}
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	
 	//display list
-	public void listItems() {
+	public boolean listItems() {
 		trans = session.beginTransaction();
 		List items = session.createQuery("FROM com.bronner.to_do_list.ToDoItem to_do_item").list();
+		if(items == null) {
+			return false;
+		}
 		for(Iterator iterator = items.iterator(); iterator.hasNext();) {
 			ToDoItem item = (ToDoItem) iterator.next();
 			System.out.print(item.getItemID() + " - ");
 			System.out.println(item.getItemDesc());
 		}
 		trans.commit();
+		return true;
 	}
 }
