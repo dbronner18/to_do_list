@@ -12,6 +12,8 @@
 
   <properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<suiteXmlFile>${basedir}/testng.xml</suiteXmlFile>
+    	<skipTests>true</skipTests>
   </properties>
 
   <dependencies>
@@ -23,6 +25,13 @@
 	    <scope>test</scope>
 	</dependency>
 
+    
+    <dependency>
+    	<groupId>org.testng</groupId>
+    	<artifactId>testng</artifactId>
+    	<version>6.8.7</version> 
+	</dependency>
+    
     <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 	<dependency>
 	    <groupId>org.hibernate</groupId>
